@@ -20,7 +20,7 @@ Class Dex_Cache {
 
     function __construct() {
         $Dex =& getInstance();
-        $this->_cache_uri      = $Dex->request->server['REQUEST_URI'];
+        $this->_cache_uri      = $Dex->request->server('REQUEST_URI');
         $this->_cache_folder   = APP_PATH . 'cache/';
         $this->_cache_file     = md5($this->_cache_uri) . EXT;
         $this->_cache_path     = $this->_cache_folder . $this->_cache_file;

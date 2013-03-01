@@ -66,3 +66,8 @@ function create_file($file, $content){
 	fclose($fp);
 	return $result;	
 }
+
+function load_view($file) {
+    $Dex =& getInstance();
+    $Dex->load->view($file);
+}

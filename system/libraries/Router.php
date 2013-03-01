@@ -40,18 +40,18 @@ Class Dex_Router {
             $this->url_mode = $Dex->config->get('ROUTER_URL_MODE');
 
         $this->path_info = '';
-        if ( isset($Dex->request->server['PATH_INFO']) )
-            $this->path_info = $Dex->request->server['PATH_INFO'];
-        elseif( isset($Dex->request->server['ORIG_PATH_INFO']) )
-            $this->path_info = $Dex->request->server['ORIG_PATH_INFO'];
+        if ( $Dex->request->server('PATH_INFO') )
+            $this->path_info = $Dex->request->server('PATH_INFO');
+        elseif( $Dex->request->server('ORIG_PATH_INFO') )
+            $this->path_info = $Dex->request->server('ORIG_PATH_INFO');
 
-        $this->args      = $Dex->request->get;
+        $this->args      = $Dex->request->get(NULL, TRUE);
         $this->_init();
     }
 
     private function _init() {
 
-        $control = $action = '';
+        $control = $action = $folder = '';
 
         if ($this->url_mode == 1) {
             //Set URL control, action params;
@@ -68,16 +68,15 @@ Class Dex_Router {
                     $action = end($paths);
                 else
                     $action = $this->action;
-
-                $temp   = explode('/', $paths[0]);
-                $control= ucwords(end($temp));
-				array_pop($temp);
-				array_push($temp, $control);
-                $paths  = implode('/', $temp);
-                $file   = trim($paths, '/');
+                
+                if ( strpos( $paths[0] , '/' ) === FALSE ) {
+                    $control = ucwords( $paths[0] );
+                } else {
+                    $temp   = explode('/', $paths[0], 2);
+                    $control= ucwords( $temp[1] );
+                    $folder = $temp[0];
+                }
             }
-			
-            $this->file = APP_PATH . 'controllers/' . $file . EXT;
 
             unset($this->args[$C]);
 
@@ -86,7 +85,6 @@ Class Dex_Router {
             $path   = trim($this->path_info, '/');
             $paths  = explode('/', $path);
             $path1  = array_shift($paths);
-            $folder = '';
 
             if ( $path1 ) {
                 // controller file in sub folder...
@@ -147,12 +145,20 @@ Class Dex_Router {
         $this->method = $this->action;
     }
 
+    public function getController() {
+        return $this->controller;
+    }
+
     public function getFile() {
         return $this->file;
     }
 
     public function getClass() {
         return $this->class;
+    }
+
+    public function getAction() {
+        return $this->action;
     }
 
     public function getMethod() {
