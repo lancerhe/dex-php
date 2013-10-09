@@ -1,18 +1,19 @@
 <?php
 
 /**
+ * DEX_Model   模型
+ * 
  * @author Lancer He <lancer.he@gmail.com>
- * @copyright 2011
+ * @copyright 2013
  */
 
 !defined('DEX') && die('Access denied');
 
-Class Dex_Model {
+Class DEX_Model {
 
     protected $db;
 
-    function __construct() {
-        $this->db =& loadClass('Database');
+    public function __construct() {
     }
 
 }

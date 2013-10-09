@@ -2,18 +2,17 @@
 
 /**
  * @author Lancer He <lancer.he@gmail.com>
- * @copyright 2012
+ * @copyright 2013
  */
 
 !defined('DEX') && die('Access denied');
 
-class IndexController extends Controller {
+Class IndexController extends Controller {
 
-    function __construct() {
-        parent::__construct();
-    }
-
-    function index() {
-        $this->load->view('welcome');
+    public function indexAction() {
+    	$data = array();
+    	$data['title'] = 'Welcome DEXPHP';
+    	$data['desc']  = 'This is a PHP Framewrok.';
+        $this->load->view('welcome', $data);
     }
 }

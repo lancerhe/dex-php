@@ -2,10 +2,10 @@
 
 /**
  * @author Lancer He <lancer.he@gmail.com>
- * @copyright 2012
+ * @copyright 2011
  */
 
 !defined('DEX') && die('Access denied');
 
-Class Loader extends DEX_Loader {
+Class Bootstrap extends DEX_Bootstrap {
 }

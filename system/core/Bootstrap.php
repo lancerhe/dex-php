@@ -1,20 +1,21 @@
 <?php
 
 /**
- * @author Lancer He <lancer.he@gmail.com>
- * @copyright 2011
+ * DEX_Bootstrap 初始化类，可继承，以(_init开头的函数将会按顺序执行)
+ * 
+ * @author Lancer He <lancer.he@gmail.com> 
+ * @copyright 2013
  */
 
 !defined('DEX') && die('Access denied');
 
-Final Class Dex_Front {
+Class DEX_Bootstrap {
 
-    function __construct() {
-        $this->router = &loadClass('Router');
-        $this->init();
+    public function __construct() {
+        $this->router =& loadCore('Router');
     }
 
-    private function init() {
+    private function _bootController() {
         $controlFile = $this->router->getFile();
         $control     = $this->router->getClass();
 
@@ -37,8 +38,7 @@ Final Class Dex_Front {
         $this->instance = new $control;
     }
 
-    function run() {
-
+    private function _bootAction() {
         $action      = $this->router->getMethod();
         $url_mode    = $this->router->getUrlMode();
         $reflection  = new ReflectionClass($this->instance);
@@ -73,7 +73,22 @@ Final Class Dex_Front {
         } else {
             $this->instance->$action();
         }
-        //$this->instance->$action();
     }
 
+    private function _bootBootstrap() {
+        $reflection  = new ReflectionClass($this);
+        $methods     = $reflection->getMethods();
+        foreach ($methods AS $row) {
+            if ( $row->class != 'Dex_Bootstrap' AND strpos( $row->name, '_init' ) !== FALSE ) {
+                $_initAction = $row->name;
+                $this->$_initAction();
+            }  
+        }
+    }
+
+    public function run() {
+        $this->_bootBootstrap();
+        $this->_bootController();
+        $this->_bootAction();
+    }
 }

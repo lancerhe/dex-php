@@ -2,7 +2,7 @@
 
 /**
  * @author Lancer He <lancer.he@gmail.com>
- * @copyright 2011
+ * @copyright 2013
  */
 
 !defined('DEX') && die('Access denied');

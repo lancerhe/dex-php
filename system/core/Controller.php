@@ -1,42 +1,29 @@
 <?php
 
 /**
- * @author Lancer He <lancer.he@gmail.com>
- * @copyright 2011
+ * DEX_Controller  控制器
+ * 
+ * @author Lancer He <lancer.he@gmail.com> 
+ * @copyright 2013
  */
 
 !defined('DEX') && die('Access denied');
 
-Class Dex_Controller {
+Class DEX_Controller {
 
-    function __construct() {
-        new DEX_Base($this);
+    public function __construct() {
+        new DEX_Dispatcher($this);
 
-        $this->load     =& loadClass('Loader', 'core');
-        $this->config   =& loadClass('Config');
-        $this->router   =& loadClass('Router');
-        $this->request  =& loadClass('Request');
-        $this->response =& loadClass('Response');
-        $this->cache    =& loadClass('Cache');
-
-        $this->config->load('Base');
-        $autoload = $this->config->get('LOAD_lib');
-        if ( ! empty($autoload) ) {
-            foreach ($autoload AS $lib) {
-                if ($lib == 'Database')
-                    $this->db =& loadClass('Database');
-                else {
-                    $method = strtolower($lib);
-                    $this->$method = $this->load->library($lib);
-                }
-            }
-        }
-        
-        loadHelper('base');
+        $this->load     =& loadCore('Loader', 'core');
+        $this->config   =& loadCore('Config');
+        $this->router   =& loadCore('Router');
+        $this->request  =& loadCore('Request');
+        $this->response =& loadCore('Response');
+        $this->cache    =& loadCore('Cache');
     }
 
 
-    function __destruct() {
+    public function __destruct() {
         if ( $this->cache->isOpen() === TRUE AND $this->cache->isLoad() === FALSE ) {
             $this->cache->write(ob_get_contents());
             ob_clean();

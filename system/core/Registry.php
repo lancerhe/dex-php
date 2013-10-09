@@ -1,24 +1,27 @@
 <?php
 
 /**
+ * DEX_Registry 全局注册
+ * 
  * @author Lancer He <lancer.he@gmail.com>
- * @copyright 2011
+ * @copyright 2013
  */
 
 !defined('DEX') && die('Access denied');
 
-final class Registry {
+Final Class DEX_Registry {
+
 	static $data = array();
 
-	public function get($key) {
+	public static function get($key) {
 		return (self::has($key) ? self::$data[$key] : NULL);
 	}
 
-	public function set($key, $value) {
+	public static function set($key, $value) {
 		self::$data[$key] = $value;
 	}
 
-	public function has($key) {
+	public static function has($key) {
 		return isset(self::$data[$key]);
 	}
 }

@@ -7,5 +7,5 @@
 
 !defined('DEX') && die('Access denied');
 
-Class Model extends Dex_Model {
+Class Model extends DEX_Model {
 }

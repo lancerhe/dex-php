@@ -7,5 +7,5 @@
 
 !defined('DEX') && die('Access denied');
 
-Class Controller extends Dex_Controller {
+Class Controller extends DEX_Controller {
 }

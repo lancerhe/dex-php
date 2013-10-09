@@ -1,27 +1,31 @@
 <?php
 
 /**
- * @author Lancer He <lancer.he@gmail.com>
- * @copyright 2011
+ * DEX_Database 数据库适配器类，获取Config配置文件中的数据库类型信息
+ * 
+ * @author Lancer He <lancer.he@gmail.com> 
+ * @copyright 2013
  */
 
 !defined('DEX') && die('Access denied');
 
-Class Dex_Database {
+Class DEX_Database {
+
     private $driver;
+    
     public function __construct() {
-        $DEX =& getInstance();
-        $DEX->config =& loadClass('Config');
+        $DEX = DEX_Dispatcher::getInstance();
+        $DEX->config =& loadCore('Config');
         $DEX->config->load('Database');
 
-        $driver   = $DEX->config->get('DB_type');
+        $driver   = ucwords( $DEX->config->get('DB_type') );
         $hostname = $DEX->config->get('DB_host');
         $username = $DEX->config->get('DB_user');
         $password = $DEX->config->get('DB_pass');
         $database = $DEX->config->get('DB_name');
 
-        if (file_exists(SYS_PATH . 'db/' . $driver . '.php')) {
-            require_once(SYS_PATH . 'db/' . $driver . '.php');
+        if (file_exists(SYS_PATH . 'db' . DIRECTORY_SEPARATOR . $driver . '.php')) {
+            require_once(SYS_PATH . 'db' . DIRECTORY_SEPARATOR . $driver . '.php');
         } else {
             error('Error: Could not load database file ' . $driver . '!');
         }
